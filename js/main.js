@@ -1,7 +1,7 @@
 const NAMES = [
   'Мария', 'Глеб', 'Ярослав', 'Жанна', 'Павел', 'Леонид', 'Дмитрий', 'Юлия', 'Наталья',
   'Анастасия', 'Сергей', 'Анна', 'Юрий', 'Евгений', 'Олег', 'Алексей', 'Максим', 'Татьяна',
-  'Светлана', 'Ирина', 'Виктор', 'Андрей', 'Константин', 'Рудольф','Екатерина'
+  'Светлана', 'Ирина', 'Виктор', 'Андрей', 'Константин', 'Рудольф','Екатерина',
 ];
 
 const PHOTO_DESCRIPTION = [
@@ -11,63 +11,68 @@ const PHOTO_DESCRIPTION = [
   'Только цель, никаких препятствий', 'Всё в ваших руках', 'Не так страшны корпоративы, как Вас отметили на фото',
   'Как мало нужно для счастья', 'На долгожданном отдыхе', 'Сотрудник года', 'Дома',
   'Обещаю, с понедельника на диете', 'Навстречу новым приключениям', 'Коллекционирую эмоции',
-  'Вперёд к новым вершинам', 'И такое случается'
+  'Вперёд к новым вершинам', 'И такое случается',
 ];
 
-const COMMENTS = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+const PHOTO_OBJECTS_QUANTITY = 25;
+
+//Функция возвращает случайное целое положительное число
+
+const getRandomPositiveInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
+  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const getRandomId = (min, max) => {
-  const previousId = [];
+//Функция возвращает случайный элемент массива
+
+const getRandomArrayElements = (elements) => elements [getRandomPositiveInteger(0, elements.length - 1)];
+
+
+// Функция для генерации уникального (неповторяющегося) числа из указанного дипазона
+const getUniqueNumberFromRange = (min, max) => {
+  const previousValues = [];
   return function () {
-    let currentId = getRandomInteger(min, max);
-    if (previousId.length > (max - min + 1)) {
+    let currentValue = getRandomPositiveInteger(min, max);
+    if (previousValues.length > (max - min + 1)) {
       return null;
     }
-    while (previousId.includes(currentId)) {
-      currentId = getRandomInteger(min, max);
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomPositiveInteger(min, max);
     }
-    previousId.push(currentId);
-    return currentId;
+    previousValues.push(currentValue);
+    return currentValue;
   };
 };
 
-const photoId = getRandomId (1, 25);
-const generatedCommentId = getRandomId(1, 100);
+const generatedPhotoId = getUniqueNumberFromRange(1, 25);
+const generatedCommentId = getUniqueNumberFromRange(1, 1000);
+const generatedPhotoUrl = getUniqueNumberFromRange(1, 25);
 
-const getRandomUrl = (min, max) => {
-  const previousUrl = [];
-  return function () {
-    let currentUrl = getRandomInteger(min, max);
-    if (previousUrl.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousUrl.includes(currentUrl)) {
-      currentUrl = getRandomInteger(min, max);
-    }
-    previousUrl.push(currentUrl);
-    return currentUrl;
-  };
-};
+const createPhotoObject = () => ({
+  photoId: generatedPhotoId(),
+  url: `photos/${generatedPhotoUrl()}.jpg`,
+  description: getRandomArrayElements(PHOTO_DESCRIPTION),
+  likes: getRandomPositiveInteger(15, 200),
+  comments: {
+    commentsId: generatedCommentId(),
+    avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
+    message: getRandomArrayElements(MESSAGES),
+    name: getRandomArrayElements(NAMES),
+  }
+});
 
-function commentsGenerator () {
-  return {
-    id: generatedCommentId(),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: `${COMMENTS[getRandomInteger(0, COMMENTS.length - 1)]}`,
-    name: `${NAMES[getRandomInteger(0, NAMES.length - 1)]}`
-  };
-}
+// eslint-disable-next-line no-unused-vars
+const PhotoObjects = Array.from({length:PHOTO_OBJECTS_QUANTITY}, createPhotoObject);
+
+
