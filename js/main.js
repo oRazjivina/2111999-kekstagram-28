@@ -1,10 +1,22 @@
+const PHOTO_OBJECTS_COUNT = 25;
+const LIKES_MIN_COUNT = 15;
+const LIKES_MAX_COUNT = 200;
+const AVATAR_MIN_COUNT = 1;
+const AVATAR_MAX_COUNT = 6;
+const ID_MIN_COUNT = 1;
+const ID_MAX_COUNT = 25;
+const URL_MIN_COUNT = 1;
+const URL_MAX_COUNT = 25;
+const COMMENTS_ID_MIN_COUNT = 1;
+const COMMENTS_ID_MAX_COUNT = 1000;
+
 const NAMES = [
   'Мария', 'Глеб', 'Ярослав', 'Жанна', 'Павел', 'Леонид', 'Дмитрий', 'Юлия', 'Наталья',
   'Анастасия', 'Сергей', 'Анна', 'Юрий', 'Евгений', 'Олег', 'Алексей', 'Максим', 'Татьяна',
   'Светлана', 'Ирина', 'Виктор', 'Андрей', 'Константин', 'Рудольф','Екатерина',
 ];
 
-const PHOTO_DESCRIPTION = [
+const PHOTO_DESCRIPTIONS = [
   'Когда радости нет предела', 'Улыбаюсь новому дню', 'Досадно, но ладно', 'Все люди, как люди, а я суперзвезда!',
   'Релаксирую', 'Законно быть таким фотогеничным?', 'Ночной дожор', 'Кто не работает, тот ест',
   'Просто оставлю это здесь', 'Образ дня', 'Без слов', 'Культурный отдых', 'Остановись мгновение! Ты прекрасно!',
@@ -14,7 +26,7 @@ const PHOTO_DESCRIPTION = [
   'Вперёд к новым вершинам', 'И такое случается',
 ];
 
-const MESSAGES = [
+const COMMENTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -22,8 +34,6 @@ const MESSAGES = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
-
-const PHOTO_OBJECTS_QUANTITY = 25;
 
 //Функция возвращает случайное целое положительное число
 
@@ -55,24 +65,27 @@ const getUniqueNumberFromRange = (min, max) => {
   };
 };
 
-const generatedPhotoId = getUniqueNumberFromRange(1, 25);
-const generatedCommentId = getUniqueNumberFromRange(1, 1000);
-const generatedPhotoUrl = getUniqueNumberFromRange(1, 25);
+const generatedComments = () =>
+  Array.from({ length: getRandomPositiveInteger (1, 2) }, () =>
+    getRandomArrayElements(COMMENTS)
+  ).join('.');
+
+const generatedPhotoId = getUniqueNumberFromRange(ID_MIN_COUNT, ID_MAX_COUNT);
+const generatedCommentId = getUniqueNumberFromRange(COMMENTS_ID_MIN_COUNT, COMMENTS_ID_MAX_COUNT);
+const generatedPhotoUrl = getUniqueNumberFromRange(URL_MIN_COUNT, URL_MAX_COUNT);
 
 const createPhotoObject = () => ({
   photoId: generatedPhotoId(),
   url: `photos/${generatedPhotoUrl()}.jpg`,
-  description: getRandomArrayElements(PHOTO_DESCRIPTION),
-  likes: getRandomPositiveInteger(15, 200),
+  description: getRandomArrayElements(PHOTO_DESCRIPTIONS),
+  likes: getRandomPositiveInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
   comments: {
     commentsId: generatedCommentId(),
-    avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
-    message: getRandomArrayElements(MESSAGES),
+    avatar: `img/avatar-${getRandomPositiveInteger(AVATAR_MIN_COUNT, AVATAR_MAX_COUNT)}.svg`,
+    message: generatedComments(),
     name: getRandomArrayElements(NAMES),
   }
 });
 
 // eslint-disable-next-line no-unused-vars
-const PhotoObjects = Array.from({length:PHOTO_OBJECTS_QUANTITY}, createPhotoObject);
-
-
+const PhotoObjects = Array.from({length:PHOTO_OBJECTS_COUNT}, createPhotoObject);
