@@ -1,6 +1,6 @@
 //Функция возвращает случайное целое положительное число
 
-const getRandomPositiveInteger = (min, max) => {
+export const getRandomPositiveInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -9,11 +9,11 @@ const getRandomPositiveInteger = (min, max) => {
 
 //Функция возвращает случайный элемент массива
 
-const getRandomArrayElements = (elements) => elements [getRandomPositiveInteger(0, elements.length - 1)];
+export const getRandomArrayElements = (elements) => elements [getRandomPositiveInteger(0, elements.length - 1)];
 
 
 // Функция для генерации уникального (неповторяющегося) числа из указанного дипазона
-const getUniqueNumberFromRange = (min, max) => {
+export const getUniqueNumberFromRange = (min, max) => {
   const previousValues = [];
   return function () {
     let currentValue = getRandomPositiveInteger(min, max);
@@ -28,4 +28,4 @@ const getUniqueNumberFromRange = (min, max) => {
   };
 };
 
-export {getRandomPositiveInteger, getRandomArrayElements, getUniqueNumberFromRange};
+export const isEscapeKey = (evt) => evt.key === 'Escape';
