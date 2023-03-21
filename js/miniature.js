@@ -1,19 +1,20 @@
-import {createDatasetPicture} from './data.js';
-
 const picturesListElement = document.querySelector('.pictures');
-const pictureTemplateElement = document.querySelector('#picture').content;
+const pictureTemplateElement = document.querySelector('#picture')
+  .content
+  .querySelector('.picture');
 
-const picturesDataset = createDatasetPicture();
 const picturesFragment = document.createDocumentFragment();
 
-picturesDataset.forEach((photo) => {
-  const pictureElement = pictureTemplateElement.cloneNode(true);
-  pictureElement.querySelector('.picture').dataset.id = photo.id;
-  pictureElement.querySelector('.picture__img').src = photo.url;
-  pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
-  pictureElement.querySelector('.picture__likes').textContent = photo.likes;
-  picturesFragment.append(pictureElement);
-});
-picturesListElement.append(picturesFragment);
+export const createMiniature = (pictures) => {
+  pictures.forEach(({id, url, likes, comments}) => {
+    const pictureElement = pictureTemplateElement.cloneNode(true);
+    pictureElement.dataset.id = id;
+    pictureElement.querySelector('.picture__img').src = url;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
+    picturesFragment.append(pictureElement);
 
-export {picturesListElement, picturesDataset};
+    picturesFragment.append(pictureElement);
+  });
+  picturesListElement.append(picturesFragment);
+};
