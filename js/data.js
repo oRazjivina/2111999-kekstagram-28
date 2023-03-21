@@ -66,6 +66,6 @@ const createDataPicture = () => ({
 });
 
 
-const createDatasetPicture = () => Array.from({length:PHOTO_OBJECTS_COUNT}, createDataPicture);
+export const createDatasetPictures = () => Array.from({length:PHOTO_OBJECTS_COUNT}, createDataPicture);
 
-export {createDatasetPicture};
+

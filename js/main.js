@@ -1,2 +1,1 @@
-import './miniature.js';
-import './fullscreen.js';
+import './gallery.js';
