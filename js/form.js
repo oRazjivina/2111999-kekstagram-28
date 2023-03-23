@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {resetValueScale} from './scale.js';
 const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAG_ERROR_MESSAGE = 'Неверно заполнены хэштеги';
@@ -24,6 +25,8 @@ const openForm = () => {
 
 const closeForm = () => {
   formElement.reset();
+  resetValueScale();
+  pristine.reset();
   overlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
