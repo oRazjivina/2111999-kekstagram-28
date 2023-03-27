@@ -1,4 +1,6 @@
 import {isEscapeKey} from './util.js';
+import {resetValueScale} from './scale.js';
+import {resetEffects} from './effect.js';
 const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAG_ERROR_MESSAGE = 'Неверно заполнены хэштеги';
@@ -24,6 +26,9 @@ const openForm = () => {
 
 const closeForm = () => {
   formElement.reset();
+  resetValueScale();
+  resetEffects();
+  pristine.reset();
   overlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -58,7 +63,7 @@ const isValidSymbolHashtags = (hashtag) => HASHTAG_VALID_SYMBOLS.test(hashtag);
 
 const validateHashtags = (value) => {
   const hashtags = value
-    .trim() //обрезается лишние пробелы в начале и в конце
+    .trim() //обрезает лишние пробелы в начале и в конце
     .split(' ') //разделяет хэштеги между собой пробелами
     .filter((hashtag) => hashtag.trim().length); //убирает пустые элементы массива. Оставляет только те хэштеги, которые имеют хоть какую-то длину.
   return isValidCountHashtags(hashtags)
@@ -82,7 +87,9 @@ const onCloseButtonClick = () => {
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if (pristine.validate()) {
+    formElement.submit();
+  }
 };
 
 fileFieldElement.addEventListener('change',onFileUploadClick);
