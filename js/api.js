@@ -10,10 +10,13 @@ const Methods = {
   POST: 'POST',
 };
 
+const filterElement = document.querySelector('.img-filters');
+
 const getData = (onSuccess) => {
   fetch(`${DEFAULT_URL}${Routes.GET_DATA}`)
     .then((response) => {
       if(response.ok) {
+        filterElement.classList.remove('img-filters--inactive');
         return response.json();
       }
       showAlert(`Ошибка! Код:${response.status}`);
