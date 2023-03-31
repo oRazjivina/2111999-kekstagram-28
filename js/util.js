@@ -105,4 +105,20 @@ const createMessageSuccess = () => {
   document.addEventListener('click', removeSuccessOutside);
 };
 
-export {isEscapeKey, showAlert, createMessageSuccess, createMessageError};
+const updatesArray = (array) => {
+  const newArray = array.slice();
+  newArray.sort(() => Math.random() - 0.5);
+  return newArray;
+};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+
+export {isEscapeKey, showAlert, createMessageSuccess, createMessageError, updatesArray, debounce};
