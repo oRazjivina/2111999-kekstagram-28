@@ -1,6 +1,7 @@
 import {createMessageSuccess, createMessageError} from './util.js';
 import {closePopupForm} from './popup-form.js';
 import {sendData} from './api.js';
+
 const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAG_ERROR_MESSAGE = 'Неверно заполнены хэштеги';

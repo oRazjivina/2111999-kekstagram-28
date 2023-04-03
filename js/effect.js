@@ -110,7 +110,7 @@ const onSliderUpdate = () => {
 };
 
 //сбрасываем все заданные значения до дефолтных
-export const resetEffects = () => {
+const resetEffects = () => {
   selectedEffect = DEFAULT_EFFECT;
   updateSlider();
 };
@@ -130,3 +130,4 @@ closeSlider();
 effectsElement.addEventListener('change', onEffectClick);
 sliderElement.noUiSlider.on('update', onSliderUpdate);
 
+export {resetEffects};

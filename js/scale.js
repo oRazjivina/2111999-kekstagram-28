@@ -33,8 +33,9 @@ const onButtonBiggerClick = () => {
   changeScalePicture(newValue);
 };
 
-export const resetValueScale = () => changeScalePicture(DEFAULT_VALUE_SCALE); //сброс до дефолтного значения
+const resetValueScale = () => changeScalePicture(DEFAULT_VALUE_SCALE); //сброс до дефолтного значения
 
 buttonSmallerElement.addEventListener('click', onButtonSmallerClick);
 buttonBiggerElement.addEventListener('click', onButtonBiggerClick);
 
+export {resetValueScale};
