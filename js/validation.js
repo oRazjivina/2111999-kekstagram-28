@@ -1,6 +1,7 @@
-import {isEscapeKey, createMessageSuccess, createMessageError} from './util.js';
+import {createMessageSuccess, createMessageError} from './util.js';
 import {closePopupForm} from './popup-form.js';
 import {sendData} from './api.js';
+
 const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAG_ERROR_MESSAGE = 'Неверно заполнены хэштеги';
@@ -9,9 +10,8 @@ const bodyElement = document.querySelector('body');
 const formElement = document.querySelector('.img-upload__form');
 const hashtagFieldElement = document.querySelector('.text__hashtags');
 const submitButtonElement = document.querySelector('.img-upload__submit');
-const commentFieldElement = document.querySelector('.text__description');
 
-const hashtagPristine = new Pristine (formElement, {
+const pristine = new Pristine (formElement, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'form__item--invalid',
   errorTextParent: 'img-upload__field-wrapper',
@@ -44,7 +44,7 @@ const validateHashtags = (value) => {
   && hashtags.every(isValidSymbolHashtags);
 };
 
-hashtagPristine.addValidator(
+pristine.addValidator(
   hashtagFieldElement,
   validateHashtags,
   HASHTAG_ERROR_MESSAGE,
@@ -65,8 +65,8 @@ const unblockSubmitButton = () => {
 const setUserFormSubmit = (onSuccess) => {
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    hashtagPristine.validate();
-    const isValid = hashtagPristine.validate();
+    pristine.validate();
+    const isValid = pristine.validate();
     if (isValid) {
       blockSubmitButton();
       sendData(
@@ -88,18 +88,6 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-hashtagFieldElement.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-    document.activeElement.blur();
-  }
-});
-
-commentFieldElement.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-    document.activeElement.blur();
-  }
-});
-
 setUserFormSubmit(closePopupForm);
+
+export {pristine};
