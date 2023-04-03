@@ -1,6 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {resetValueScale} from './scale.js';
 import {resetEffects} from './effect.js';
+import {pristine} from './validation.js';
 
 const FORMATS_FILE = ['jpeg', 'png', 'jpg'];
 
@@ -35,6 +36,8 @@ function closePopupForm() {
   formElement.reset();
   resetValueScale();
   resetEffects();
+  pristine.reset();
+  inputPictureElement.value = '';
   uploadPopupPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
